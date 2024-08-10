@@ -1,9 +1,13 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.sql.*;
-
+/**
+ *
+ * @author JIC
+ */
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -159,7 +163,6 @@ public class ProductManagementPanel extends JPanel {
         if (selectedRow != -1) {
             nameField.setText((String) tableModel.getValueAt(selectedRow, 1));
             String formattedPrice = (String) tableModel.getValueAt(selectedRow, 2);
-            // Parsing harga yang terformat kembali ke angka
             double parsedPrice = CurrencyUtil.parseRupiah(formattedPrice);
             priceField.setText(CurrencyUtil.formatRupiah(parsedPrice));
             quantityField.setText(String.valueOf(tableModel.getValueAt(selectedRow, 3)));

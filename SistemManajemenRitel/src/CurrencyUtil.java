@@ -22,6 +22,9 @@ public class CurrencyUtil {
 
     public static double parseRupiah(String amount) {
         try {
+            if (!amount.contains("Rp")) {
+                return Double.parseDouble(amount.replaceAll("[^\\d.]", ""));
+            }
             Number number = rupiahFormat.parse(amount);
             return number.doubleValue();
         } catch (ParseException e) {

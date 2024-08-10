@@ -138,7 +138,6 @@ public class SalesTransactionPanel extends JPanel {
         tableModel.setRowCount(0);
 
         try (Connection connection = DatabaseConnection.getConnection()) {
-            // Query untuk join tabel transaksi dengan produk dan pelanggan
             String query = "SELECT t.id, p.name AS product_name, t.quantity, t.total_cost, c.name AS customer_name, t.transaction_date "
                     + "FROM transactions t "
                     + "JOIN products p ON t.product_id = p.id "
@@ -152,7 +151,6 @@ public class SalesTransactionPanel extends JPanel {
                 String productName = resultSet.getString("product_name");
                 int quantity = resultSet.getInt("quantity");
                 double totalCost = resultSet.getDouble("total_cost");
-                // Format total biaya sebagai Rupiah
                 String formattedTotalCost = CurrencyUtil.formatRupiah(totalCost);
                 String customerName = resultSet.getString("customer_name");
                 Timestamp transactionDate = resultSet.getTimestamp("transaction_date");
@@ -170,7 +168,6 @@ public class SalesTransactionPanel extends JPanel {
         if (customerName != null && !customerName.trim().isEmpty()) {
             tableModel.setRowCount(0);
             try (Connection connection = DatabaseConnection.getConnection()) {
-                // Query untuk mencari transaksi berdasarkan nama pelanggan
                 String query = "SELECT t.id, p.name AS product_name, t.quantity, t.total_cost, c.name AS customer_name, t.transaction_date "
                         + "FROM transactions t "
                         + "JOIN products p ON t.product_id = p.id "
@@ -185,7 +182,6 @@ public class SalesTransactionPanel extends JPanel {
                     String productName = resultSet.getString("product_name");
                     int quantity = resultSet.getInt("quantity");
                     double totalCost = resultSet.getDouble("total_cost");
-                    // Format total biaya sebagai Rupiah
                     String formattedTotalCost = CurrencyUtil.formatRupiah(totalCost);
                     String customerNameResult = resultSet.getString("customer_name");
                     Timestamp transactionDate = resultSet.getTimestamp("transaction_date");

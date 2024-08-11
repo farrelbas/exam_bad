@@ -11,6 +11,8 @@
 import javax.swing.*;
 import java.awt.*;
 import java.sql.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class LoginForm extends JFrame {
 
@@ -62,12 +64,13 @@ public class LoginForm extends JFrame {
     private void login() {
         String username = usernameField.getText();
         String password = new String(passwordField.getPassword());
+        String hashedPassword = hashPassword(password);
 
         try (Connection connection = DatabaseConnection.getConnection()) {
             String query = "SELECT * FROM users WHERE username = ? AND password = ?";
             PreparedStatement statement = connection.prepareStatement(query);
             statement.setString(1, username);
-            statement.setString(2, password);
+            statement.setString(2, hashedPassword);
             ResultSet resultSet = statement.executeQuery();
 
             if (resultSet.next()) {
@@ -80,6 +83,21 @@ public class LoginForm extends JFrame {
         } catch (SQLException ex) {
             ex.printStackTrace();
             JOptionPane.showMessageDialog(this, "Terjadi kesalahan koneksi database.");
+        }
+    }
+
+    private String hashPassword(String password) {
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            byte[] hashBytes = md.digest(password.getBytes());
+            StringBuilder sb = new StringBuilder();
+            for (byte b : hashBytes) {
+                sb.append(String.format("%02x", b));
+            }
+            return sb.toString();
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }
